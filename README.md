@@ -9,9 +9,9 @@ One stop shop for all things [Node.js](https://nodejs.org) related work...
 
 At the very least this is to help give more examples on how to use the [SmartThings Ecosystem](https://smartthings.developer.samsung.com/develop/index.html).
 
-####Quick Setup
+#### Quick Setup
 
-#####Fill in the blanks for:
+##### Fill in the blanks for:
 - [ngrok](https://ngrok.com/)
 - [OpernWeatherMap](openweathermap.org)
 - [SmartThings Authorization](https://account.smartthings.com/tokens)  
