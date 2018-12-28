@@ -37,7 +37,7 @@ or
 - Logger (store device states to [MongoDB](https://www.mongodb.com/)):
 ```./controllers/st/logger.js```
 - Changes (armed/disarmed de/activations):
-```./controllers/st/logger.js```
+```./controllers/st/changes.js```
 
 #### Acknowledgement
 
