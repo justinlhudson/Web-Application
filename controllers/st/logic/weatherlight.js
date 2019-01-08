@@ -126,31 +126,34 @@ const handler = async (installedApp, token) => {
   const deviceId = installedApp.config.weather_colorLight[0].deviceConfig.deviceId;
 
   const chunks = 4; // 1=3hrs, 2=6hrs, 3=9hrs, 4=12hrs
-
-  getForecast(zipCode)
-    .then( (forecast) => {
-      const color = getColorForForecast(forecast, chunks);
-      commands.device(token, deviceId, [
-        {
-          command: 'on',
-          capability: 'switch',
-          component: 'main',
-          arguments: []
-        },
-        {
-          command: 'setLevel',
-          capability: 'switchLevel',
-          component: 'main',
-          arguments: [5]
-        },
-        {
-          command: 'setColor',
-          capability: 'colorControl',
-          component: 'main',
-          arguments: [color]
-        }
-      ])
-    }).catch( (error) => { console.error(error); })
+  try {
+    getForecast(zipCode)
+      .then( (forecast) => {
+        try {
+          const color = getColorForForecast(forecast, chunks);
+          commands.device(token, deviceId, [
+            {
+              command: 'on',
+              capability: 'switch',
+              component: 'main',
+              arguments: []
+            },
+            {
+              command: 'setLevel',
+              capability: 'switchLevel',
+              component: 'main',
+              arguments: [5]
+            },
+            {
+              command: 'setColor',
+              capability: 'colorControl',
+              component: 'main',
+              arguments: [color]
+            }
+          ])
+        } catch (error) { console.error(error);}
+      }).catch( (error) => { console.error(error); })
+  } catch (error) { console.error(error);}
 };
 
 module.exports = {

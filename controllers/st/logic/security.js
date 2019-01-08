@@ -89,7 +89,6 @@ const arming = (minutes) => {
 const activate = (minutes) => {
   return new Promise( (resolve, reject) => {
     const switches = _switchesActive;
-    const emails = _emails;
     lock.acquire('activate', () => { // event loops can fire multiple events at same time
       disables().then((count) => {
         if(count <= 0) {
@@ -149,10 +148,12 @@ const activate = (minutes) => {
             };
           };
         } else {
-          _activeSecurity = undefined; // reset
-          _active = false;
-          _armed = false;
-          arming(_minutesInActive);  // set arming again, no need for motion first
+          // in-case already going throw deactivate, let it finish the cycle
+          if (_activeSecurity === undefined) {
+            _active = false;
+            _armed = false;
+            arming(_minutesInActive);  // set arming again, no need for motion first
+          }
         }
         resolve();
       }).catch((err) => {
@@ -182,7 +183,7 @@ const handler = async (installedApp, token, deviceEvent=undefined, devicesInfo=u
   if(!(capability === 'motionSensor') && !(capability === 'contactSensor'))
     return _armed || _active;
 
-  // Settings De-code from App Configuration
+  // Settings Decode from App Configuration
   _minutesInActive = helper.stringValuesConfigured(installedConfig, 'security_minutesInActive')[0];
   _minutesActive = helper.stringValuesConfigured(installedConfig, 'security_minutesActive')[0];
   _switchesActive = helper.devicesConfigContainedIn(installedConfig, devicesInfo, 'security_switchesActive');
