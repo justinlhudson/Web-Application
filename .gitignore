@@ -1,0 +1,8 @@
+# Environment configuration
+configuration/environment.json
+
+# NodeJS
+node_modules/
+
+# MongoDB
+.mongodb/

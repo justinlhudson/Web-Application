@@ -8,7 +8,7 @@ const debug = require('debug')('web-application:app');
 const http = require('http');
 const https = require('https');
 const bodyParser = require('body-parser');
-const router = require('folder-router');  // routes based on directory name
+const enrouten = require('express-enrouten');  // routes based on directory name
 const ngrok = require('ngrok');
 const pem = require('pem');
 const favicon = require('serve-favicon');
@@ -51,8 +51,7 @@ app.use(ignoreFavicon);
 */
 
 // router path'ing setup
-router(app, path.join(__dirname, 'routes'));
-app.use('/', router)
+app.use(enrouten({ directory: path.join(__dirname, 'routes') }));
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -68,13 +67,13 @@ app.use(sassMiddleware({
   src: path.join(__dirname, 'public'),
   dest: path.join(__dirname, 'public'),
   indentedSyntax: true, // true = .sass and false = .scss
-  sourceMap: true,
   sourceMap: true
 }));
+
 app.use(express.static(path.join(__dirname, 'public')));
 
 // handles error message was getting...?
-app.use(favicon(__dirname + '/public/images/favicon.ico'));
+app.use(favicon(path.join(__dirname, 'public/images/favicon.ico')));
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
@@ -111,11 +110,11 @@ server.on('error', (error) => {
   // setup specific listen errors with friendly messages
   switch (error.code) {
     case 'EACCES':
-      console.error(bind + ' requires elevated privileges');
+      console.error(`${bind} requires elevated privileges`);
       process.exit(1);
       break;
     case 'EADDRINUSE':
-      console.error(bind + ' is already in use');
+      console.error(`${bind} is already in use`);
       process.exit(1);
       break;
     default:
@@ -128,20 +127,21 @@ server.on('listening', options => {
   const bind = typeof addr === 'string'
     ? 'pipe ' + addr
     : 'port ' + addr.port;
-  console.info('Listening on: ' + bind);
+  console.info(`Listening on ${bind}`);
 
   //secure tunnel service
   (async () => {
-    await ngrok.disconnect('https://'+configuration.NGROK.SUBDOMAIN+'.ngrok.io');
+    await ngrok.disconnect(`https://${configuration.NGROK.SUBDOMAIN}.ngrok.io`);
     await ngrok.connect({
       proto: 'http',
       addr: port,
+      inspect: true,
       authtoken: configuration.NGROK.TOKEN,
       subdomain: configuration.NGROK.SUBDOMAIN,
       region: 'us'
     })
       .then((url) => {
-        console.info('Webhook at: ' + url);
+        console.info(`Webhook at: ${url}/st`);
     })
       .catch((err) => {
         console.error('Error while connecting Ngrok: ', err);

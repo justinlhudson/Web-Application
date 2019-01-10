@@ -6,7 +6,7 @@ const createConfigInitializeSetting = () => {
     name: 'Bridge',
     description: 'Bridge into ST',
     id: 'app',
-    permissions: ['r:schedules','w:schedules'],//, 'r:devices'], //Todo:  this is causing issues, why?
+    permissions: ['r:devices:*'],
     firstPageId: '1'
   }
 }
