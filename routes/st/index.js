@@ -1,15 +1,16 @@
-const router = require('express').Router();
-const jsonParser = require('body-parser').json();
+const jsonParser = require("body-parser").json();
 
-const st = require.main.require('./controllers/st/handler');
+const st = require.main.require("./controllers/st/handler");
 
-/* GET home page. */
-router.get('/', async (request, response, next) => {
-  response.render('index', { title: 'st' });
-});
+module.exports = router => {
 
-router.post('/', jsonParser, async (request, response) => {
-  st.entry(request, response);
-});
-
-module.exports = router;
+  /* GET /st page. */
+  router.get("/", async (request, response, next) => {
+    response.render("index", { title: "st" });
+  });
+  
+  /* POST /st for smartapp execution */
+  router.post("/", jsonParser, async (request, response) => {
+    st.entry(request, response);
+  });
+};
