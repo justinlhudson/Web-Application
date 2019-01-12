@@ -106,8 +106,8 @@ const createConfigPage = (pageId, currentConfig) => {
           permissions: ['r']
         },{
           id: app_subname+'_switchesDisable',
-          name: 'Off/On',
-          description: 'Disable',
+          name: 'Off (Enabled), On (Disabled)',
+          description: 'Switch on security disabled vice versa Switch off security enabled',
           type: 'DEVICE',
           multiple: true,
           required: false,

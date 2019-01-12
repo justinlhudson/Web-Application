@@ -52,7 +52,7 @@ At the very least this is to help give more examples on how to use the [SmartThi
 
 - Weather Light Indicator:
   - `./controllers/st/weatherlight.js`
-- Security System (self-monitored by email/text):
+- Security System (self-monitored by email/text [ssmtp](https://github.com/justinlhudson/Config-And-Setup/tree/master/Configs/etc/ssmtp)) ):
   - `./controllers/st/security.js`
 - Logger (store device states to [MongoDB](https://www.mongodb.com/)):
   - `./controllers/st/logger.js`
@@ -83,6 +83,9 @@ Example event including a potential error:
 INSTALLED_APP_LIFECYCLE_EVENT
 {"eventTime":1547063745012,"eventType":"INSTALLED_APP_LIFECYCLE_EVENT","installedAppLifecycleEvent":{"locationId":"SOMEUUID","installedAppId":"SOMEUUID","appId":"SOMEUUID","lifecycle":"OTHER","other":{},"error":{"code":"ConstraintViolationError","message":"The request is malformed.","target":"","details":[{"code":"UnsupportedPermissionRequestedError","message":"The requested permission is not supported by the backing App's OAuth Client.","target":"config.app.configEntry.permissionConfig.permission(r:schedules)","details":[]},{"code":"UnsupportedPermissionRequestedError","message":"The requested permission is not supported by the backing App's OAuth Client.","target":"config.app.configEntry.permissionConfig.permission(w:schedules)","details":[]}]}}}
 ```
+###  Integration
+
+Use [Amazon Alexa](https://support.smartthings.com/hc/en-us/articles/210204906-Amazon-Alexa-SmartThings-Routines-and-Scenes) to setup and run routines such as "Alexa, security disable" (when arrive home turns on configured switch) or "Alexa, security enable" (when leaving to turn off switch)
 
 ### Acknowledgement
 

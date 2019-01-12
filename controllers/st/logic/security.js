@@ -13,7 +13,6 @@ const lock = new asynclock();
 let _armSecurity = undefined;
 let _activeSecurity = undefined;
 
-let _disables = undefined;
 let _armed = true;  // ready at the start
 let _active = false;
 
@@ -30,7 +29,7 @@ let _emails = undefined;
 const _emailMessage = (message) => {
   _emails.forEach(email => {
     console.log(message);
-    shell.exec(`ssh -t `+configuration.EMAIL_SERVER+` "echo Security System - ${message} | /usr/sbin/ssmtp ${email}"`)
+    shell.exec(`ssh -t `+ configuration.EMAIL_SERVER + ` "echo Security System - ${message} | /usr/sbin/ssmtp ${email}"`)
   });
 };
 
@@ -77,10 +76,10 @@ const arming = (minutes) => {
 
               _armed = true;
               _active = false;
-            };
+            }
           });
         }, 1000 * 60 * minutes);
-      };
+      }
     });
     resolve();
   });
@@ -145,8 +144,8 @@ const activate = (minutes) => {
                     console.error(prettyjson.render(err, prettyjsonOptions));
                   });
               });
-            };
-          };
+            }
+          }
         } else {
           // in-case already going throw deactivate, let it finish the cycle
           if (_activeSecurity === undefined) {
@@ -170,8 +169,6 @@ const handler = async (installedApp, token, deviceEvent=undefined, devicesInfo=u
 
   // is timer event!
   if(deviceEvent === undefined || devicesInfo === undefined) {
-    if(_disables > 0)
-      return false;
     return _armed || _active;
   }
 
